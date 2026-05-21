@@ -1,6 +1,6 @@
 from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
-import requests, json, os
+import requests, json, copy, os
 
 class Base:
     def __init__(self):
@@ -18,7 +18,10 @@ class Base:
                     req = requests.get(url, headers=headers, timeout=(5,5))
                 else:
                     req = requests.patch(url, headers=headers, json=payload, timeout=(5,5))
-                return True,req
+                if req.status_code == 200: 
+                    return True,req
+                else:
+                    return False,req
             except Exception as ex:
                 crashed = True
                 pass
@@ -35,13 +38,14 @@ class Base:
         return urls
 
     def filterUrls(self,urls,keyword):
-        for url in list(urls):
+        tmpUrls = copy.deepcopy(urls)
+        for url in list(tmpUrls):
             if url is None:
-                urls.remove(url)
+                tmpUrls.remove(url)
                 continue 
             if not keyword in url:
-                urls.remove(url)
-        return urls
+                tmpUrls.remove(url)
+        return tmpUrls
 
     def readFile(self,path):
         if os.path.isfile(path):
