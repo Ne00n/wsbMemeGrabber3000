@@ -1,6 +1,6 @@
 from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
-import requests, json, copy, html, os, re
+import requests, json, copy, html, time, os, re
 
 class Base:
     def __init__(self):
