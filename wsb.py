@@ -5,6 +5,7 @@ tools = Base()
 path = os.path.dirname(os.path.realpath(__file__))
 success, comments = tools.readFile(f"{path}/data/comments.json")
 origin = "https://old.reddit.com/r/wallstreetbets/"
+nextPages = []
 
 while True:
     print(f"Fetching {origin}")
@@ -23,3 +24,5 @@ while True:
         origin = nextPage[0]
     else:
         origin = nextPage[1]
+    if origin in nextPages: break
+    nextPages.append(origin)
