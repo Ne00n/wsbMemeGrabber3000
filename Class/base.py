@@ -1,6 +1,6 @@
 from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
-import requests, json, copy, os
+import requests, json, copy, html, os, re
 
 class Base:
     def __init__(self):
@@ -46,6 +46,22 @@ class Base:
             if not keyword in url:
                 tmpUrls.remove(url)
         return tmpUrls
+
+    def fully_unescape(self,s):
+        while True:
+            new_s = html.unescape(s)
+            if new_s == s:
+                return s
+            s = new_s
+
+    def grabPictures(self,src):
+        pictures =  re.findall(r'https://[^\s"\']*preview[^\s"\']*', src)
+        urls = []
+        for url in pictures:
+            url = self.fully_unescape(url)
+            url = url.rstrip('"\'')
+            urls.append(url)
+        return urls
 
     def readFile(self,path):
         if os.path.isfile(path):
