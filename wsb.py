@@ -11,7 +11,6 @@ origin = "https://old.reddit.com/r/wallstreetbets/"
 nextPages = []
 
 while True:
-    print(f"Fetching {origin}")
     success, req = tools.fetch(origin)
     if not success: exit(f"Failed to fetch {origin}")
 
@@ -33,8 +32,7 @@ while True:
 for url in comments:
     if not url in pictures: 
         pictures[url] = []
-        print(f"Fetching {url}")
-        success, req = tools.fetch(origin)
+        success, req = tools.fetch(url)
         if not success: exit(f"Failed to fetch {url}")
         urls = tools.getUrls(req.text)
         filteredUrls = tools.grabPictures(req.text)

@@ -12,6 +12,7 @@ class Base:
         crashed = False
         for run in range(1,max):
             try:
+                print(f"Fetching {url}")
                 if method == "POST":
                     req = requests.post(url, headers=headers, json=payload, timeout=(5,5))
                 elif method == "GET":
